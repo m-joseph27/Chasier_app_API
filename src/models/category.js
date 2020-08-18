@@ -52,9 +52,9 @@ module.exports = {
     })
   },
 
-  insertCategory: (data) => {
+  insertCategory: (idCategory) => {
     return new Promise((resolve, reject) => {
-      connection.query("INSERT INTO category SET ?", data, (err, result) => {
+      connection.query("INSERT INTO category SET ?", idCategory, (err, result) => {
         if (!err) {
           resolve(result)
         } else {

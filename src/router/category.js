@@ -1,13 +1,12 @@
 const express = require('express');
 const Router = express.Router();
-const menuController = require('../controller/menu');
+const categoryController = require('../controller/category');
 
 Router
 
-  .get('/', menuController.getMenu)
-  .get('/:id_menu', menuController.menuDetail)
-  // .post('/', uploads, menuController.insertMenu)
-  .patch('/:id', menuController.updateMenu)
-  .delete('/:id_book', menuController.deleteMenu)
+  .get('/', categoryController.getCategory)
+  .get('/:id', categoryController.detailCategory)
+  .post('/insert', categoryController.insertCategory)
+  .patch('/id', categoryController.updateCategory)
 
-module.exports = Router;
+  module.exports = Router;
