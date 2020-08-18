@@ -2,47 +2,24 @@ require('dotenv').config()
 const connection = require('../config/db');
 
 module.exports = {
-  getCategory: (search, descending, ascending) =>{
-    return new Promise((resolve, reject)=>{
-      if(search){
-        connection.query("SELECT * FROM category WHERE id LIKE ? OR name LIKE ? ",[`{search}%`, `%${search}%`, `%${search}%`], (err, result) => {
-          if(!err){
-            resolve(result)
-          }else{
-            reject(new Error(err))
-          }
-        })
-      } else if(descending){
-        connection.query("SELECT category.* FROM category ORDER BY " + descending + " DESC ", (err, result)=>{
-          if(!err){
-            resolve(result)
-          }else{
-            reject(new Error(err))
-          }
-        })
-      }else if(ascending){
-        connection.query("SELECT category. * FROM category ORDER BY " + ascending + " ASC", (err, result)=>{
-          if(!err){
-            resolve(result)
-          }else{
-            reject(new Error(err))
-          }
-        })
-      }else{
-        connection.query("SELECT * FROM category", (err, result) => {
-          if (!err) {
-            resolve(result)
-          } else {
-            reject(new Error(err))
-          }
-        })
-      }
+  getCategory: () => {
+    return new Promise((resolve, reject) =>{
+      let sort = true;
+        if(sort) {
+          connection.query("SELECT * FROM category", (err, result) => {
+            if(!err) {
+              resolve(result)
+            } else {
+              reject(new Error(err))
+            }
+          })
+        }
     })
   },
 
   categoryDetail: (id) => {
     return new Promise((resolve, reject) => {
-      connection.query("SELECT * FROM category WHERE id= ?", [id], (err, result) => {
+      connection.query("SELECT * FROM product WHERE id= ?", id, (err, result) => {
         if (!err) {
           resolve(result)
         } else {
@@ -52,9 +29,9 @@ module.exports = {
     })
   },
 
-  insertCategory: (idCategory) => {
+  insertCategory: (name) => {
     return new Promise((resolve, reject) => {
-      connection.query("INSERT INTO category SET ?", idCategory, (err, result) => {
+      connection.query("INSERT INTO category SET ?", name, (err, result) => {
         if (!err) {
           resolve(result)
         } else {
@@ -76,9 +53,9 @@ module.exports = {
     })
   },
 
-  deleteCategory: (id) => {
+  deleteBook: (id) => {
     return new Promise((resolve, reject) => {
-      connection.query("DELETE FROM category WHERE id = ?", id, (err, result) => {
+      connection.query("DELETE FROM category WHERE id = ?", [id], (err, result) => {
         if (!err) {
           resolve(result)
         } else {
@@ -87,4 +64,5 @@ module.exports = {
       })
     })
   },
+  
 }

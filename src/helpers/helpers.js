@@ -1,14 +1,17 @@
-const { response } = require("express");
-
 module.exports = {
-  response: (res, result) =>
-    {
-      const resultPrint = {
-        status : result.status || 500,
-        message: result.message || null,
-        data : result.data || null,
-        err : result.err || null,
-      }
-      return res.status(resultPrint.status).json(resultPrint)
+  response: (res, result, status, err)=>{
+    let resultPrint = {}
+    if(status !== 200){
+      resultPrint.status = 'Failed';
+      resultPrint.status_code = status;
+      resultPrint.result = result;
+      resultPrint.err = err||null;
+      return res.status(resultPrint.status_code).json(resultPrint);
     }
+    resultPrint.status = 'Success';
+    resultPrint.status_code = status;
+    resultPrint.result = result;
+    resultPrint.err = err||null;
+    return res.status(resultPrint.status_code).json(resultPrint);
+  }
 }

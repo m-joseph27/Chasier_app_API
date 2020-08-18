@@ -1,8 +1,6 @@
 const menuModel = require('../models/menu');
 const MiscHelper = require('../helpers/helpers');
 const connection = require('../config/db');
-// const redis = require('redis');
-// const client = redis.createClient(process.env.PORT_REDIS);
 
 
 
@@ -17,7 +15,6 @@ module.exports = {
       menuModel.getMenu(search, ascending, descending)
         .then((result)=>{
           console.log(result)
-          // client.setex('getallbooks',3600 ,JSON.stringify(result))
           MiscHelper.response(res, result, 200, 'success');
         })
         .catch(err=> {

@@ -7,6 +7,6 @@ const Router = express.Router();
 Router
   .use('/menu', menu)
   .use('/user', user)
-  // .use('/category', category)
+  .use('/category', category)
 
 module.exports = Router;

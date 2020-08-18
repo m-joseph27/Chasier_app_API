@@ -1,90 +1,85 @@
 const categoryController = require('../models/category');
-const helper = require('../helper/helpers');
+const helper = require('../helpers/helpers');
+const connection = require('../configs/db');
+
 
 module.exports = {
-  getCategory: (req, res) => {
-    const result = {}
-    categoryController.getCategory().then((results) => {
-      if(results.length === 0) {
-        result.status = 404;
-        result.message = 'category not found';
-        helper.response(res, result);
-      } else {
-        result.status = 202;
-        result.message = 'List Category';
-        result.data = results;
-        helper.response(res, result);
-      }
-    })
-    .catch(err => {
-      result.message = 'internal server error';
-      result.err = err;
-      helper.response(res, result)
-    })
+  getCategory: (req, res)=>{
+    if (!page) {
+      categoryController.getCategory().then((result)=>{
+          helper.response(res, result, 200, 'Bener');
+        })
+        .catch(err=> {
+          helper.response(res, err, 202, 'Salah')
+        });
+    } else {
+      connection.query("SELECT COUNT(*) as total FROM `book` ", (err, result)=> {
+        const total = result[0].total;
+        if(page > 0 ) {
+            bookModel.getPage(page, total)
+            .then((result)=> {
+                helper.response(res,result, 200)
+            })
+            .catch((err)=> {
+                helper.response(res, {}, 202,err)
+            })
+        }
+      })
+    }
   },
 
-  insertCategory: (req, res) => {
-    const data = req.body;
-    const result = {};
-    data.photo = `http://localhost:2000/api/v1/upload/${req.file.filename}`
-    categoryController.insertCategory(data).then((result) => {
-      if(data === undefined) {
-        result.status = 404;
-        result.message = 'failed to insert category';
-        helper.response(res, result);
-      } else {
-        result.status = 200;
-        result.message = 'Succes To Insert Category';
-        result.data = data;
-        helper.response(res, result)
-      }
-    })
+  bookDetail: (req, res) => {
+    const idBook = req.params.id_book
+    bookModel.bookDetail(idBook)
+      .then((result) => {
+        helper.response(res, result[0], 200);
+      })
+      .catch(err => console.log(err));
   },
 
-  updateCategory: (req, res) => {
-    const idCategory = req.params.id;
-    const data = req.body;
-    const result = {};
-    data.photo = `http://localhost:2000/api/v1/upload/${req.file.filename}`
-    categoryController.updateCategory(idCategory, data).then((result) => {
-      if(data === 0) {
-        result.status = 404;
-        result.message = 'failed to update category';
-        helper.response(res, result);
-      } else {
-        result.status = 200;
-        result.message = 'Success update category';
-        result.data = data;
-        helper.response(res, result);
-      }
-    })
-    .catch(err => {
-      result.message = 'internal server error';
-      result.err = err;
-      helper.response(res, result)
-    });
+  insertBook: (req, res)=>{
+    const {title, description, image, status, author, id_category} = req.body;
+    const data = {
+      title,
+      description,
+      image: `http://localhost:1111/uploads/${req.file.filename}`,
+      status,
+      author,
+      id_category,
+      created_at: new Date(),
+    }
+    bookModel.insertBook(data)
+      .then((result) => {
+        res.send(result);
+      })
+      .catch(err => console.log(err));
   },
 
-  detailCategory: (req, res) => {
-    const idCategory = req.params.id;
-    const result = {};
-    categoryController.detailCategory(idCategory).then((result) => {
-      if(result.length === 0) {
-        result.status = 404;
-        result.message = 'Category not found';
-        helper.response(res, result);
-      } else {
-        result.status = 200;
-        result.message = 'List Category';
-        result.data = result;
-        helper.response(res, result);
-      }
-    })
-    .catch(err => {
-      result.message = 'internal server error';
-      result.err = err;
-      helper.response(res, result)
-    })
+  updateBook: (req, res) => {
+    const idBook = req.params.id
+    const { title, description, status, author, id_category } = req.body;
+    const data = {
+      title,
+      description,
+      image,
+      status,
+      author,
+      id_category,
+      update_at: new Date(),
+    }
+    bookModel.updateBook(idBook, data)
+      .then((result) => {
+        res.send(result);
+      })
+      .catch(err => console.log(err));
   },
 
+  deleteBook: (req, res) => {
+    const idBook = req.params.id_book
+    bookModel.deleteBook(idBook)
+      .then((result) => {
+        res.send(result);
+      })
+      .catch(err => console.log(err));
+  },
 }

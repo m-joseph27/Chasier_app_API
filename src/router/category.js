@@ -5,7 +5,7 @@ const categoryController = require('../controller/category');
 Router
 
   .get('/', categoryController.getCategory)
-  .get('/:id', categoryController.detailCategory)
+  .get('/:id_category', categoryController.detailCategory)
   .post('/insert', categoryController.insertCategory)
   .patch('/id', categoryController.updateCategory)
 

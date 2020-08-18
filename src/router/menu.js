@@ -2,7 +2,6 @@ const express = require('express');
 const Router = express.Router();
 const menuController = require('../controller/menu');
 const cors = require('cors');
-// const redisHelper = require('../helpers/redis');
 const multer = require('multer');
 const storage = multer.diskStorage({
   destination: function(req, file, cb){
