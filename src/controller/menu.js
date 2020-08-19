@@ -1,8 +1,5 @@
-const menuModel = require('../models/menu');
-const MiscHelper = require('../helpers/helpers');
-const connection = require('../config/db');
-
-
+const menuController = require('../models/menu');
+const helpers = require('../helpers/helpers');
 
 module.exports = {
   getMenu: (req, res)=>{
@@ -12,24 +9,23 @@ module.exports = {
     const page = req.query.page;
     
     if (!page) {
-      menuModel.getMenu(search, ascending, descending)
+      menuController.getMenu(search, ascending, descending)
         .then((result)=>{
-          console.log(result)
-          MiscHelper.response(res, result, 200, 'success');
+          helpers.response(res, result, 200, 'success');
         })
         .catch(err=> {
-          MiscHelper.response(res, err, 202, 'Failed')
+          helpers.response(res, err, 202, 'Failed')
         });
     } else {
       connection.query("SELECT COUNT(*) as total FROM `menu` ", (err, result)=> {
         const total = result[0].total;
         if(page > 0 ) {
-            menuModel.getPage(page, total)
+            menuController.getPage(page, total)
             .then((result)=> {
-                MiscHelper.response(res,result, 200)
+                helpers.response(res,result, 200)
             })
             .catch((err)=> {
-                MiscHelper.response(res, {}, 202,err)
+                helpers.response(res, {}, 202,err)
             })
         }
       })
@@ -38,15 +34,15 @@ module.exports = {
 
   menuDetail: (req, res) => {
     const idMenu = req.params.id_menu
-    menuModel.bookDetail(idMenu)
+    menuController.menuDetail(idMenu)
       .then((result) => {
         if(result[0].length === 0) {
-          MiscHelper.response(res, err, 202,'Menu Not Found!')
+          helpers.response(res, err, 202,'Menu Not Found!')
         }
-        MiscHelper.response(res, result, 200, 'Succes');
+        helpers.response(res, result, 200, 'Succes');
       })
       .catch((err) => {
-        MiscHelper.response(res, err, 202,'Menu Not Found!')
+        helpers.response(res, err, 202,'Menu Not Found!')
       });
   },
 

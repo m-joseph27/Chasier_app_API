@@ -19,7 +19,7 @@ module.exports = {
 
   categoryDetail: (id) => {
     return new Promise((resolve, reject) => {
-      connection.query("SELECT * FROM product WHERE id= ?", id, (err, result) => {
+      connection.query("SELECT * FROM category WHERE id= ?", [id], (err, result) => {
         if (!err) {
           resolve(result)
         } else {

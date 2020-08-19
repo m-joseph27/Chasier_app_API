@@ -55,9 +55,9 @@ module.exports = {
         })
     })
   },
-  menuDetail: (id) => {
+  menuDetail: (id_menu) => {
     return new Promise((resolve, reject) => {
-      connection.query("SELECT menu.*, category.name FROM menu INNER JOIN category ON menu.id_category = category.id WHERE menu.id_menu = ?", id, (err, result) => {
+      connection.query("SELECT menu.*, category.name FROM menu INNER JOIN category ON menu.id_category = category.id WHERE menu.id_menu = ?", [id_menu], (err, result) => {
         if (!err) {
           resolve(result)
         } else {
