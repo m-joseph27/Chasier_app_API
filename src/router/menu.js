@@ -19,9 +19,8 @@ Router
 
   .get('/', menuController.getMenu)
   .get('/:id_menu', menuController.menuDetail)
-  .post('/', uploads.single('images'), menuController.insertMenu)
-  // .post('/', uploads, menuController.insertMenu)
+  .post('/', uploads.single('menu_img'), menuController.insertMenu)
   .patch('/:id', menuController.updateMenu)
-  .delete('/:id_book', menuController.deleteMenu)
+  .delete('/:id_menu', menuController.deleteMenu)
 
 module.exports = Router;

@@ -1,6 +1,5 @@
 const userModels = require('../models/user');
 const MiscHelper = require('../helpers/helpers');
-const { genSaltSync, compareSync, hashSync} = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const connection = require('../config/db');
@@ -9,11 +8,9 @@ require('dotenv').config();
 module.exports = {
     getUser: (req, res) => {
         const search = req.query.search
-        // console.log(search)
         userModels.getUser(search)
             .then((resultUser) => {
                 const result = resultUser
-                // console.log(result)
                 MiscHelper.response(res, result, 200)
             })
             .catch((error) => {

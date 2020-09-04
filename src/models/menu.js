@@ -66,6 +66,7 @@ module.exports = {
       })
     })
   },
+
   insertMenu: (data) => {
     return new Promise((resolve, reject) => {
       connection.query("INSERT INTO menu SET ?", data, (err, result) => {
@@ -77,6 +78,7 @@ module.exports = {
       })
     })
   },
+  
   updateMenu: (id, data) => {
     return new Promise((resolve, reject) => {
       connection.query("UPDATE menu SET ? WHERE id_menu= ?", [data, id], (err, result) => {

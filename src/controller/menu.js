@@ -52,10 +52,10 @@ module.exports = {
       menu_name,
       price,
       id_category,
-      menu_img:`http://localhost:2727/uploads/${_req._file.filename}`,
+      menu_img: `http://localhost:2727/uploads/${req.file.filename}`,
       created_at: new Date()
     }
-    menuModel.insertBook(data)
+    menuController.insertMenu(data)
       .then((result) => {
         res.send(result);
       })
