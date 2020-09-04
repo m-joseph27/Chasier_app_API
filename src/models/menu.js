@@ -90,6 +90,7 @@ module.exports = {
       })
     })
   },
+  
   deleteMenu: (id) => {
     return new Promise((resolve, reject) => {
       connection.query("DELETE FROM menu WHERE id_menu = ?", id, (err, result) => {

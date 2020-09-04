@@ -20,7 +20,7 @@ Router
   .get('/', menuController.getMenu)
   .get('/:id_menu', menuController.menuDetail)
   .post('/', uploads.single('menu_img'), menuController.insertMenu)
-  .patch('/:id', menuController.updateMenu)
+  .patch('/:id_menu', uploads.single('menu_img') ,menuController.updateMenu)
   .delete('/:id_menu', menuController.deleteMenu)
 
 module.exports = Router;

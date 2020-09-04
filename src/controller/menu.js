@@ -63,16 +63,16 @@ module.exports = {
   },
 
   updateMenu: (req, res) => {
-    const idMenu = req.params.id
+    const idMenu = req.params.id_menu;
     const { menu_name, price, id_category, menu_img} = req.body;
     const data = {
       menu_name,
       price,
       id_category,
-      menu_img,
+      menu_img: `http://localhost:2727/uploads/${req.file.filename}`,
       update_at: new Date(),
     }
-    menuModel.updateMenu(idMenu, data)
+    menuController.updateMenu(idMenu, data)
       .then((result) => {
         res.send(result);
       })
@@ -81,7 +81,7 @@ module.exports = {
 
   deleteMenu: (req, res) => {
     const idMenu = req.params.id_menu
-    menuModel.deleteMenu(idMenu)
+    menuController.deleteMenu(idMenu)
       .then((result) => {
         res.send(result);
       })
